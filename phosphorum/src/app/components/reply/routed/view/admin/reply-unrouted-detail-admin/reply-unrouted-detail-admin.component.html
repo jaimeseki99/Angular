@@ -1,0 +1,10 @@
+<h3>Reply</h3>
+Reply ID: <input type="text" [(ngModel)]="id" (ngModelChange)="getOne">
+<h2 *ngIf="idNotExist">ERROR</h2>
+<div *ngIf="!idNotExist && id>0">
+    <p>ID: {{datos.id}}</p>
+    <p>Title: {{datos.title}}</p>
+    <p>Body: {{datos.body}}</p>
+    <p>User: {{datos.user}}</p>
+    <p>Thread: {{datos.thread}}</p>
+</div>

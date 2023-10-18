@@ -1,0 +1,8 @@
+<h3>Thread</h3>
+THREAD ID: <input type="text" [(ngModel)]="id" (change)="getOne">
+<h2 *ngIf="id==0">ERROR</h2>
+<div *ngIf="id>0">
+    <p>ID: {{datos.id}}</p>
+    <p>Title: {{datos.title}}</p>
+    <p>User: {{datos.user}}</p>
+</div>

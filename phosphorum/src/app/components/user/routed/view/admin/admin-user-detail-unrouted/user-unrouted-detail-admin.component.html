@@ -1,0 +1,13 @@
+<h3>Usuario</h3>
+USER ID: <input type="text" [(ngModel)]="id">
+<h2 *ngIf="id==0">ERROR</h2>
+<div *ngIf="id>0">
+    <p>Name: {{datos.name}}</p>
+    <p>Surname: {{datos.surname}}</p>
+    <p>Last name: {{datos.lastname}}</p>
+    <p>Email: {{datos.email}}</p>
+    <p>Username: {{datos.username}}</p>
+    <p>Role: {{datos.role}}</p>
+    <p>Threads: {{datos.threads}}</p>
+    <p>Replies: {{datos.replies}}</p>
+</div>
