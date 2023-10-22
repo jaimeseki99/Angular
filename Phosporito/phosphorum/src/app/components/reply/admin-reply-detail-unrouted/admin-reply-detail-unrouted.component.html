@@ -1,0 +1,18 @@
+<h2 *ngIf="status != null">ERROR: {{ status.message }}</h2>
+<div *ngIf="status == null">
+  <div class="p-grid p-justify-content">
+    <div class="p-col-12">
+      <p-card class="centered-card">
+        <ng-container *ngIf="oReply">
+          <div class="p-card-title">Reply #{{ oReply.id}}</div>
+        </ng-container>
+        <ul class="p-list no-bullets">
+          <li>Title: {{ oReply.title}}</li>
+          <li>Body: {{ oReply.body }}</li>
+          <li>User: <a [routerLink]="['/admin', 'user', 'view', oReply.user.id]">{{ oReply.user.name }} {{ oReply.user.surname }}</a></li>
+          <li>Thread: <a [routerLink]="['/admin', 'thread', 'view', oReply.thread.id]">{{ oReply.thread.title }}</a></li>
+        </ul>
+      </p-card>
+    </div>
+  </div>
+</div>

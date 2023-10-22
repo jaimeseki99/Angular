@@ -1,0 +1,20 @@
+<h2 *ngIf="status != null">ERROR: {{ status.message }}</h2>
+<div *ngIf="status == null">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-card class="centered-card">
+        <ng-container *ngIf="oUser">
+          <div class="p-card-title">User #{{ oUser.id }}</div>
+        </ng-container>
+        <ul class="p-list no-bullets">
+          <li>Name: {{ oUser.name }}</li>
+          <li>Surname: {{oUser.surname}}</li>
+          <li>Lastname: {{oUser.lastname}}</li>
+          <li>Email: {{ oUser.email }}</li>
+          <li>Username: {{ oUser.username }}</li>
+          <li>Role: {{ oUser.role ? 'Admin' : 'User' }}</li>
+        </ul>
+      </p-card>
+    </div>
+  </div>
+</div>

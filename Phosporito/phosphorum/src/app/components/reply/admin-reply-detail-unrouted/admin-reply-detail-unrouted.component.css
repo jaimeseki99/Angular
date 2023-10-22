@@ -1,0 +1,11 @@
+.centered-card {
+    text-align: center;
+    margin: 0 5rem;
+    padding: auto;
+  }
+
+  .no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }

@@ -1,0 +1,31 @@
+<h2 *ngIf="status!=null">ERROR: {{status.message}}</h2>
+<div *ngIf="status==null">
+  <h2 style="margin: 2rem 5rem;">Threads</h2>
+  <h3 style="margin: 0 5rem;">Showing {{oPage.numberOfElements}} of total {{oPage.totalElements}} threads.</h3>
+
+  <div class="card flex justify-content-center">
+    <p-paginator (onPageChange)="onPageChang($event)" [first]="oPaginatorState.first!" [rows]="oPaginatorState.rows!"
+      [totalRecords]="oPage.totalElements" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
+  </div>
+
+  <div class="card" style="margin: 0 5rem">
+    <p-table [value]="oPage.content" [tableStyle]="{ 'min-width': '50rem', 'border': '0.5px solid #ddd' }">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th>ID</th>
+          <th (click)="doOrder('title')">Title</th>
+          <th (click)="doOrder('user')">User</th>
+          <th (click)="doOrder('replies')">Replies</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-t>
+        <tr>
+          <td>{{t.id}}</td>
+          <td>{{t.title}}</td>
+          <td><a [routerLink]="['/admin','user','view',t.user.id]">{{t.user.name}}</a></td>
+          <td>{{t.replies}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
