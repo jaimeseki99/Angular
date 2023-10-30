@@ -1,4 +1,4 @@
-import { ReplyAjaxService } from './../../../service/reply.ajax.service.service';
+import { ReplyAjaxService } from 'src/app/service/reply.ajax.service.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IReply, IThread, IUser, formOperation } from 'src/app/model/model.interfaces';
-import { AdminThreadSelectionUnroutedComponent } from '../../thread/admin-thread-selection-unrouted/admin-thread-selection-unrouted.component';
 import { AdminUserSelectionUnroutedComponent } from '../../user/admin-user-selection-unrouted/admin-user-selection-unrouted.component';
+import { AdminThreadSelectionUnroutedComponent } from '../../thread/admin-thread-selection-unrouted/admin-thread-selection-unrouted.component';
 
 @Component({
   selector: 'app-admin-reply-form-unrouted',
@@ -20,7 +20,7 @@ export class AdminReplyFormUnroutedComponent implements OnInit {
   @Input() operation: formOperation = 'NEW'; // new or edit
 
   replyForm!: FormGroup;
-  oReply: IReply =  { user: {}, thread: {}} as IReply;
+  oReply: IReply = {user : {}, thread : {} } as IReply;
   status: HttpErrorResponse | null = null;
 
   oDynamicDialogRef: DynamicDialogRef | undefined;
@@ -36,13 +36,17 @@ export class AdminReplyFormUnroutedComponent implements OnInit {
     this.initializeForm(this.oReply);
   }
 
-  initializeForm(reply: IReply) {
+  initializeForm(oReply: IReply) {
     this.replyForm = this.formBuilder.group({
-      id: [reply.id],
-      title: [reply.title, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      body: [reply.body, [Validators.required, Validators.maxLength(1000)]],
-      user: [reply.user, [Validators.required]],
-      thread: [reply.thread, [Validators.required]]
+      id: [oReply.id],
+      title: [oReply.title, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      body: [oReply.body, [Validators.required, Validators.maxLength(1000)]],
+      user: this.formBuilder.group({
+        id: [oReply.user.id]
+      }),
+      thread: this.formBuilder.group({
+        id: [oReply.thread.id]
+      })
     });
   }
 
@@ -72,10 +76,10 @@ export class AdminReplyFormUnroutedComponent implements OnInit {
       if (this.operation == 'NEW') {
         this.oReplyAjaxService.createOne(this.replyForm.value).subscribe({
           next: (data: IReply) => {
-            this.oReply = data;
+            this.oReply = {user : {}, thread : {} } as IReply;
             this.initializeForm(this.oReply);
             this.matSnackBar.open("Reply has been created.", '', { duration: 1200 });
-            this.router.navigate(['/admin', 'reply', 'view', this.oReply]);
+            this.router.navigate(['/admin', 'reply', 'view', data]);
           },
           error: (error: HttpErrorResponse) => {
             this.status = error;
@@ -112,8 +116,7 @@ export class AdminReplyFormUnroutedComponent implements OnInit {
       if (oUser) {
         console.log(oUser);
         this.oReply.user = oUser;
-        this.replyForm.controls['user'].patchValue({ id: oUser.id })    //controls['id'].setValue(oUser.id);
-        //this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: product.name });
+        this.replyForm.controls['user'].patchValue({ id: oUser.id })
       }
     });
   }
@@ -131,10 +134,8 @@ export class AdminReplyFormUnroutedComponent implements OnInit {
       if (oThread) {
         console.log(oThread);
         this.oReply.thread = oThread;
-        this.replyForm.controls['thread'].patchValue({ id: oThread.id })    //controls['id'].setValue(oUser.id);
-        //this.messageService.add({ severity: 'info', summary: 'Product Selected', detail: product.name });
+        this.replyForm.controls['thread'].patchValue({ id: oThread.id })
       }
     });
   }
-
 }
